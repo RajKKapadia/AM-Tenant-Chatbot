@@ -1,16 +1,27 @@
 {
-  "name": "tenentbot",
+  "name": "tenantbot",
   "version": "1.0.0",
-  "description": "This is a project from Aravind.",
+  "description": "This is a freelance project for AM.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RajKKapadia/AM-Tenant-Chatbot.git"
+  },
   "author": "Raj Kapadia",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RajKKapadia/AM-Tenant-Chatbot/issues"
+  },
+  "homepage": "https://github.com/RajKKapadia/AM-Tenant-Chatbot#readme",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
     "googleapis": "^46.0.0"
   }
 }
