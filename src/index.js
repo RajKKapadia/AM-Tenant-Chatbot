@@ -25,7 +25,7 @@ webApp.get('/', (req, res) => {
 const TIMEZONE = process.env.TIMEZONE;
 
 // Options to formate the date
-const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit' };
+const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', timeZone: TIMEZONE };
 
 // Webhook
 webApp.post('/webhook', async (req, res) => {
