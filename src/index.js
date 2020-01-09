@@ -18,7 +18,7 @@ const PORT = process.env.PORT;
 
 // Home route
 webApp.get('/', (req, res) => {
-    res.send(`Hello World.! Ramesh`);
+    res.send(`Hello World.!`);
 });
 
 // Timezone setting

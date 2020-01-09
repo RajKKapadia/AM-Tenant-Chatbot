@@ -93,9 +93,9 @@ const getTimeSlots = async () => {
 
         let td = new Date(Date.parse(`${year}-${month}-${day}T09:00:00.000${TIMEOFFSET}`));
 
-        let t = 24, count = 0, freeSlots = [];
+        let t = 24, count = 0, freeSlots = [], i = 0;
 
-        for (let i = 0; i < filledSlots.length; i++) {
+        while (filledSlots.length < 2) {
 
             if (freeSlots.length == 2) {
                 break;
