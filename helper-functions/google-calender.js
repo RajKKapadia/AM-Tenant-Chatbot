@@ -71,80 +71,95 @@ const getTimeSlots = async () => {
     // All events
     let events = response['data']['items'];
 
-    let filledSlots = [];
+    if (events.length == 0) {
 
-    events.forEach(event => {
-        filledSlots.push(new Date(Date.parse(event['start']['dateTime'])));
-    });
+        let td = new Date(Date.parse(`${year}-${month}-${day}T09:00:00.000${TIMEOFFSET}`));
 
-    let td = new Date(Date.parse(`${year}-${month}-${day}T09:00:00.000${TIMEOFFSET}`));
+        let oneOption = new Date(new Date(td).setHours(td.getHours() + 24));
+        let twoOption = new Date(new Date(td).setHours(td.getHours() + 52));
 
-    let t = 24, count = 0, freeSlots = [];
+        return {
+            oneOption,
+            twoOption
+        };
 
-    for (let i = 0; i < filledSlots.length; i++) {
+    } else {
 
-        if (freeSlots.length == 2) {
-            break;
-        }
+        let filledSlots = [];
 
-        // New temporary date
-        let nd = new Date(new Date(td).setHours(td.getHours() + t));
+        events.forEach(event => {
+            filledSlots.push(new Date(Date.parse(event['start']['dateTime'])));
+        });
 
-        // Possible dates for appointments
-        let one = new Date(new Date(td).setHours(td.getHours() + t));
-        let two = new Date(new Date(td).setHours(td.getHours() + t + 1));
-        let three = new Date(new Date(td).setHours(td.getHours() + t + 4));
-        let four = new Date(new Date(td).setHours(td.getHours() + t + 5));
+        let td = new Date(Date.parse(`${year}-${month}-${day}T09:00:00.000${TIMEOFFSET}`));
 
-        let thisCount = 0;
+        let t = 24, count = 0, freeSlots = [];
 
-        for (let j = 0; j < filledSlots.length; j++) {
-            let fs = filledSlots[j];
-            if (nd.getDate() === fs.getDate()) {
-                thisCount += 1;
+        for (let i = 0; i < filledSlots.length; i++) {
+
+            if (freeSlots.length == 2) {
+                break;
             }
-        }
 
-        count += thisCount;
+            // New temporary date
+            let nd = new Date(new Date(td).setHours(td.getHours() + t));
 
-        if (thisCount > 1) {
+            // Possible dates for appointments
+            let one = new Date(new Date(td).setHours(td.getHours() + t));
+            let two = new Date(new Date(td).setHours(td.getHours() + t + 1));
+            let three = new Date(new Date(td).setHours(td.getHours() + t + 4));
+            let four = new Date(new Date(td).setHours(td.getHours() + t + 5));
 
-        } else if (thisCount == 0) {
-            let rn = Math.random();
-            if (rn < 0.25) {
-                freeSlots.push(one);
-            } else if (rn > 0.25 && rn < 0.5) {
-                freeSlots.push(two);
-            } else if (rn > 0.5 & rn < 0.75) {
-                freeSlots.push(three);
-            } else {
-                freeSlots.push(four);
+            let thisCount = 0;
+
+            for (let j = 0; j < filledSlots.length; j++) {
+                let fs = filledSlots[j];
+                if (nd.getDate() === fs.getDate()) {
+                    thisCount += 1;
+                }
             }
-        } else {
-            if (one.getTime() === filledSlots[count - 1].getTime() || two.getTime() === filledSlots[count - 1].getTime()) {
-                if (Math.random() > 0.5) {
+
+            count += thisCount;
+
+            if (thisCount > 1) {
+
+            } else if (thisCount == 0) {
+                let rn = Math.random();
+                if (rn < 0.25) {
+                    freeSlots.push(one);
+                } else if (rn > 0.25 && rn < 0.5) {
+                    freeSlots.push(two);
+                } else if (rn > 0.5 & rn < 0.75) {
                     freeSlots.push(three);
                 } else {
                     freeSlots.push(four);
                 }
-            } else if (three.getTime() === filledSlots[count - 1].getTime() || four.getTime() === filledSlots[count - 1].getTime()) {
-                if (Math.random() > 0.5) {
-                    freeSlots.push(one);
-                } else {
-                    freeSlots.push(two);
+            } else {
+                if (one.getTime() === filledSlots[count - 1].getTime() || two.getTime() === filledSlots[count - 1].getTime()) {
+                    if (Math.random() > 0.5) {
+                        freeSlots.push(three);
+                    } else {
+                        freeSlots.push(four);
+                    }
+                } else if (three.getTime() === filledSlots[count - 1].getTime() || four.getTime() === filledSlots[count - 1].getTime()) {
+                    if (Math.random() > 0.5) {
+                        freeSlots.push(one);
+                    } else {
+                        freeSlots.push(two);
+                    }
                 }
             }
+            t += 24;
         }
-        t += 24;
+
+        let oneOption = freeSlots[0];
+        let twoOption = freeSlots[1];
+
+        return {
+            oneOption,
+            twoOption
+        };
     }
-
-    let oneOption = freeSlots[0];
-    let twoOption = freeSlots[1];
-
-    return {
-        oneOption,
-        twoOption
-    };
 };
 
 // Insert new event to Google Calendar
