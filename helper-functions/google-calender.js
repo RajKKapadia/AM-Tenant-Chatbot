@@ -95,7 +95,7 @@ const getTimeSlots = async () => {
 
         let t = 24, count = 0, freeSlots = [], i = 0;
 
-        while (filledSlots.length < 2) {
+        while (freeSlots.length < 2) {
 
             if (freeSlots.length == 2) {
                 break;
